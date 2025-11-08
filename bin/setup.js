@@ -76,13 +76,18 @@ function setupApiRoute() {
     process.exit(1);
   }
 
+  // Detect if project uses src/app or app directory structure
+  const hasSrcApp = fs.existsSync(path.join(cwd, "src", "app"));
+  const appDir = hasSrcApp ? path.join(cwd, "src", "app") : path.join(cwd, "app");
+  const relativePath = hasSrcApp ? "src/app/api/preview/route.ts" : "app/api/preview/route.ts";
+
   // Create the API route directory structure
-  const apiRoutePath = path.join(cwd, "app", "api", "preview");
+  const apiRoutePath = path.join(appDir, "api", "preview");
   const routeFilePath = path.join(apiRoutePath, "route.ts");
 
   // Check if route already exists
   if (fs.existsSync(routeFilePath)) {
-    console.log("⚠️  API route already exists at app/api/preview/route.ts");
+    console.log(`⚠️  API route already exists at ${relativePath}`);
     console.log("To reinstall, delete the existing file and run this command again.");
     process.exit(0);
   }
@@ -93,7 +98,7 @@ function setupApiRoute() {
   // Write the route file
   fs.writeFileSync(routeFilePath, API_ROUTE_CONTENT);
 
-  console.log("✅ Successfully created API route at app/api/preview/route.ts");
+  console.log(`✅ Successfully created API route at ${relativePath}`);
   console.log("");
   console.log("📦 Make sure you have the required dependencies:");
   console.log("   npm install axios cheerio");
