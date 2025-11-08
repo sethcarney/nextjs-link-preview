@@ -41,10 +41,13 @@
   },
   "scripts": {
     "build": "rollup -c",
+    "build:watch": "rollup -c --watch",
     "prepublishOnly": "npm run build",
     "demo": "cd nextjs-demo && npm run dev",
     "demo:install": "cd nextjs-demo && npm install",
-    "demo:build": "cd nextjs-demo && npm run build"
+    "demo:build": "cd nextjs-demo && npm run build",
+    "dev:link": "npm link && cd nextjs-demo && npm link nextjs-link-preview && cd ..",
+    "dev:unlink": "cd nextjs-demo && npm unlink nextjs-link-preview && npm install nextjs-link-preview@latest && cd .."
   },
   "peerDependencies": {
     "next": ">=14.0.0",
