@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is **react-link-preview**, a Next.js component library for generating link preview cards with metadata extraction. The library uses a Next.js API route to fetch Open Graph and meta tags from URLs server-side, completely eliminating CORS issues. It displays rich preview cards with images, titles, and descriptions.
+This is **nextjs-link-preview**, a Next.js component library for generating link preview cards with metadata extraction. The library uses a Next.js API route to fetch Open Graph and meta tags from URLs server-side, completely eliminating CORS issues. It displays rich preview cards with images, titles, and descriptions.
 
 **Key Innovation:** Unlike browser-based solutions that face CORS restrictions, this library fetches metadata on the server using Next.js API routes, enabling it to work with any public URL (GitHub, Twitter, Reddit, etc.).
 

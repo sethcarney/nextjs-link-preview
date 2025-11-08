@@ -225,7 +225,7 @@ This works on any platform that supports Next.js:
 ## Project Structure
 
 ```
-link-preview/
+nextjs-link-preview/
 ├── src/
 │   └── nextjs/
 │       ├── app/
