@@ -1,14 +1,10 @@
 {
-  "name": "react-link-preview",
+  "name": "nextjs-link-preview",
   "version": "1.0.0",
-  "description": "A customizable React component for generating beautiful link preview cards with images, titles, and descriptions",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "description": "A Next.js component for generating beautiful link preview cards with server-side metadata fetching - No CORS issues!",
   "keywords": [
+    "nextjs",
+    "next",
     "react",
     "link-preview",
     "preview",
@@ -17,7 +13,8 @@
     "og",
     "card",
     "component",
-    "typescript"
+    "typescript",
+    "server-side"
   ],
   "author": "",
   "license": "MIT",
@@ -25,26 +22,9 @@
     "type": "git",
     "url": ""
   },
-  "peerDependencies": {
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
-  },
-  "dependencies": {
-    "axios": "^1.6.0",
-    "cheerio": "^1.0.0-rc.12",
-    "tslib": "^2.8.1"
-  },
-  "devDependencies": {
-    "@rollup/plugin-commonjs": "^22.0.0",
-    "@rollup/plugin-node-resolve": "^13.3.0",
-    "@rollup/plugin-typescript": "^8.5.0",
-    "@types/cheerio": "^0.22.31",
-    "@types/react": "^18.0.0",
-    "rollup": "^2.79.1",
-    "typescript": "^5.7.3"
-  },
   "scripts": {
-    "build": "rollup -c",
-    "prepare": "npm run build"
+    "demo": "cd nextjs-demo && npm run dev",
+    "demo:install": "cd nextjs-demo && npm install",
+    "demo:build": "cd nextjs-demo && npm run build"
   }
 }

@@ -1,6 +1,14 @@
-# React Link Preview
+# Next.js Link Preview
 
-A customizable React component for generating beautiful link preview cards with images, titles, and descriptions extracted from URL metadata.
+A customizable Next.js component for generating beautiful link preview cards with images, titles, and descriptions extracted from URL metadata.
+
+## Why Next.js?
+
+**Browser CORS limitations** prevent client-side link preview components from fetching metadata from most websites. This Next.js implementation solves that problem by:
+
+- ✅ **Server-side fetching**: API route fetches metadata on the server
+- ✅ **No CORS issues**: Works with GitHub, Twitter, Reddit, and any public URL
+- ✅ **Production-ready**: Deploy to Vercel, Netlify, or any Node.js platform
 
 ## Features
 
@@ -11,27 +19,50 @@ A customizable React component for generating beautiful link preview cards with 
 - Loading and error states
 - Callback functions for load and error events
 - Responsive design
+- **No CORS issues** - works with any public URL!
 
-## Installation
+## Quick Start
 
-```bash
-npm install react-link-preview
-```
-
-or
+### 1. Copy Files to Your Next.js Project
 
 ```bash
-yarn add react-link-preview
+# Copy the API route
+cp src/nextjs/app/api/preview/route.ts YOUR_PROJECT/app/api/preview/route.ts
+
+# Copy the component
+cp src/nextjs/components/LinkPreview.tsx YOUR_PROJECT/components/LinkPreview.tsx
 ```
 
-## Usage
+### 2. Install Dependencies
+
+```bash
+npm install axios cheerio
+```
+
+### 3. Use the Component
+
+```tsx
+import { LinkPreview } from '@/components/LinkPreview';
+
+export default function Page() {
+  return (
+    <div>
+      <LinkPreview url="https://github.com" size="medium" />
+    </div>
+  );
+}
+```
+
+That's it! No CORS issues, works with any URL.
+
+## Usage Examples
 
 ### Basic Example
 
 ```tsx
-import { LinkPreview } from 'react-link-preview';
+import { LinkPreview } from '@/components/LinkPreview';
 
-function App() {
+export default function Page() {
   return (
     <LinkPreview url="https://github.com" />
   );
@@ -41,9 +72,9 @@ function App() {
 ### With Size Variants
 
 ```tsx
-import { LinkPreview } from 'react-link-preview';
+import { LinkPreview } from '@/components/LinkPreview';
 
-function App() {
+export default function Page() {
   return (
     <div>
       {/* Small preview - compact view with 1 line description */}
@@ -62,42 +93,21 @@ function App() {
 ### With Custom Styling
 
 ```tsx
-import { LinkPreview } from 'react-link-preview';
-
-function App() {
-  return (
-    <LinkPreview
-      url="https://github.com"
-      width="400px"
-      height="auto"
-      className="my-custom-class"
-    />
-  );
-}
+<LinkPreview
+  url="https://github.com"
+  width="400px"
+  className="my-custom-class"
+/>
 ```
 
 ### With Callbacks
 
 ```tsx
-import { LinkPreview } from 'react-link-preview';
-
-function App() {
-  const handleLoad = (data) => {
-    console.log('Loaded metadata:', data);
-  };
-
-  const handleError = (error) => {
-    console.error('Failed to load preview:', error);
-  };
-
-  return (
-    <LinkPreview
-      url="https://github.com"
-      onLoad={handleLoad}
-      onError={handleError}
-    />
-  );
-}
+<LinkPreview
+  url="https://github.com"
+  onLoad={(data) => console.log('Loaded:', data)}
+  onError={(error) => console.error('Error:', error)}
+/>
 ```
 
 ## API
@@ -111,6 +121,7 @@ function App() {
 | `width` | `string` \| `number` | `"100%"` | Width of the preview card |
 | `height` | `string` \| `number` | `"auto"` | Height of the preview card |
 | `className` | `string` | `""` | Additional CSS class name |
+| `apiEndpoint` | `string` | `"/api/preview"` | Custom API endpoint (if you moved the route) |
 | `onLoad` | `(data: LinkPreviewData) => void` | `undefined` | Callback when metadata is loaded |
 | `onError` | `(error: Error) => void` | `undefined` | Callback when loading fails |
 
@@ -133,63 +144,99 @@ interface LinkPreviewData {
 }
 ```
 
-## Important Notes
+## Testing & Demo
 
-### CORS Limitations
+This project includes an interactive test suite built with Next.js to help you experiment with different URLs and size variants.
 
-This package fetches URL metadata on the client side, which may be blocked by CORS policies. For production use, consider one of these approaches:
-
-1. **Use a proxy server**: Set up a backend endpoint that fetches the metadata and forwards it to your React app
-2. **Use a metadata service**: Services like [link-preview-generator](https://www.linkpreview.net/) or similar APIs
-3. **Server-side rendering**: Fetch metadata during SSR to avoid CORS issues
-
-### Example Proxy Implementation
-
-```javascript
-// Backend (Express example)
-app.get('/api/preview', async (req, res) => {
-  const { url } = req.query;
-  // Fetch metadata using the same logic
-  // Return JSON to frontend
-});
-
-// Frontend
-// Modify fetchMetadata to call your proxy instead
-```
-
-## Development
-
-### Setup
+### Run the Demo
 
 ```bash
-# Clone the repository
-git clone <your-repo-url>
+# Install demo dependencies (first time only)
+npm run demo:install
 
-# Install dependencies
-npm install
-
-# Build the package
-npm run build
+# Start the demo server
+npm run demo
 ```
 
-### Build
+The demo application will open in your browser at http://localhost:3000 with:
+- Interactive URL input for testing any link
+- Pre-configured example URLs for popular sites
+- Toggle between small, medium, and large sizes
+- View extracted metadata
+- Side-by-side comparison of all size variants
+- **No CORS issues** - test GitHub, Twitter, Reddit, and more!
 
-The package is built using Rollup and outputs both CommonJS and ES Module formats:
+## How It Works
+
+### 1. API Route (`app/api/preview/route.ts`)
+
+The Next.js API route runs on the server and:
+- Receives the URL as a query parameter
+- Fetches the HTML using axios
+- Parses metadata using Cheerio
+- Returns JSON response
+
+This bypasses CORS because it's a server-to-server request.
+
+### 2. Client Component (`components/LinkPreview.tsx`)
+
+The React component:
+- Calls the API route (no CORS!)
+- Handles loading and error states
+- Renders the preview card with metadata
+
+## Deployment
+
+### Vercel (Recommended)
 
 ```bash
 npm run build
+vercel deploy
 ```
 
-Output files:
-- `dist/index.js` - CommonJS format
-- `dist/index.esm.js` - ES Module format
-- `dist/index.d.ts` - TypeScript declarations
+### Other Platforms
+
+This works on any platform that supports Next.js:
+- Netlify
+- AWS Amplify
+- Railway
+- Any Node.js hosting
+
+## Project Structure
+
+```
+link-preview/
+├── src/
+│   └── nextjs/
+│       ├── app/
+│       │   └── api/
+│       │       └── preview/
+│       │           └── route.ts       # Server-side API route
+│       └── components/
+│           └── LinkPreview.tsx        # Client component
+├── nextjs-demo/                       # Interactive demo app
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── api/preview/
+│   │   │   ├── page.tsx              # Demo interface
+│   │   │   └── layout.tsx
+│   │   └── components/
+│   │       └── LinkPreview.tsx
+│   └── package.json
+└── package.json
+```
 
 ## Dependencies
 
-- React >= 16.8.0
-- axios - For HTTP requests
-- cheerio - For HTML parsing and metadata extraction
+### Required
+- **Next.js** >= 14.0.0
+- **React** >= 18.0.0
+- **axios** - For HTTP requests
+- **cheerio** - For HTML parsing and metadata extraction
+
+### Dev Dependencies
+- TypeScript
+- Node types
 
 ## License
 
@@ -198,3 +245,26 @@ MIT
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Troubleshooting
+
+### "Module not found" errors
+
+Make sure you've installed all dependencies:
+```bash
+npm install axios cheerio
+```
+
+### API route not found
+
+Ensure the API route is at `app/api/preview/route.ts` in your Next.js project.
+
+### Still getting CORS errors
+
+Make sure you're using the Next.js component, not the old React-only version. The component should be calling `/api/preview`, not fetching URLs directly.
+
+## Need Help?
+
+- Check the [demo README](nextjs-demo/README.md) for more details
+- Review the source code in `src/nextjs/`
+- Open an issue on GitHub
