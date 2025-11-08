@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { LinkPreview, LinkPreviewSize, LinkPreviewData } from '../components/LinkPreview';
+import { LinkPreview, LinkPreviewSize, LinkPreviewData } from 'nextjs-link-preview';
 import './page.css';
 
 const exampleUrls = [
