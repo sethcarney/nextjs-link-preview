@@ -66,13 +66,17 @@ function setupApiRoute() {
   // Check if we're in a Next.js project
   const packageJsonPath = path.join(cwd, "package.json");
   if (!fs.existsSync(packageJsonPath)) {
-    console.error("❌ Error: package.json not found. Make sure you're in a Next.js project directory.");
+    console.error(
+      "❌ Error: package.json not found. Make sure you're in a Next.js project directory."
+    );
     process.exit(1);
   }
 
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
   if (!packageJson.dependencies?.next && !packageJson.devDependencies?.next) {
-    console.error("❌ Error: Next.js not found in dependencies. Make sure this is a Next.js project.");
+    console.error(
+      "❌ Error: Next.js not found in dependencies. Make sure this is a Next.js project."
+    );
     process.exit(1);
   }
 

@@ -193,7 +193,9 @@ export function LinkPreview({
           justifyContent: "center"
         }}
       >
-        {data.title && <h3 style={{ margin: "0 0 8px 0", fontSize: config.titleSize }}>{data.title}</h3>}
+        {data.title && (
+          <h3 style={{ margin: "0 0 8px 0", fontSize: config.titleSize }}>{data.title}</h3>
+        )}
         {data.description && (
           <p
             style={

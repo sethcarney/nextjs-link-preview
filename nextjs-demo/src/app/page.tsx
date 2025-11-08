@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { LinkPreview, LinkPreviewSize, LinkPreviewData } from 'nextjs-link-preview';
-import './page.css';
+import { useState } from "react";
+import { LinkPreview, LinkPreviewSize, LinkPreviewData } from "nextjs-link-preview";
+import "./page.css";
 
 const exampleUrls = [
-  'https://github.com',
-  'https://www.wikipedia.org',
-  'https://stackoverflow.com',
-  'https://www.youtube.com',
-  'https://twitter.com',
-  'https://www.reddit.com',
-  'https://medium.com',
-  'https://dev.to'
+  "https://github.com",
+  "https://www.wikipedia.org",
+  "https://stackoverflow.com",
+  "https://www.youtube.com",
+  "https://twitter.com",
+  "https://www.reddit.com",
+  "https://medium.com",
+  "https://dev.to"
 ];
 
 export default function Home() {
-  const [customUrl, setCustomUrl] = useState('');
-  const [testUrl, setTestUrl] = useState('https://github.com');
-  const [selectedSize, setSelectedSize] = useState<LinkPreviewSize>('medium');
+  const [customUrl, setCustomUrl] = useState("");
+  const [testUrl, setTestUrl] = useState("https://github.com");
+  const [selectedSize, setSelectedSize] = useState<LinkPreviewSize>("medium");
   const [loadedData, setLoadedData] = useState<LinkPreviewData | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -65,7 +65,7 @@ export default function Home() {
               onChange={(e) => setCustomUrl(e.target.value)}
               placeholder="Enter a URL (e.g., https://github.com)"
               className="url-input"
-              onKeyPress={(e) => e.key === 'Enter' && handleTest()}
+              onKeyPress={(e) => e.key === "Enter" && handleTest()}
             />
             <button onClick={handleTest} className="test-button">
               Test Preview
@@ -79,9 +79,9 @@ export default function Home() {
                 <button
                   key={url}
                   onClick={() => handleExampleClick(url)}
-                  className={`url-chip ${testUrl === url ? 'active' : ''}`}
+                  className={`url-chip ${testUrl === url ? "active" : ""}`}
                 >
-                  {new URL(url).hostname.replace('www.', '')}
+                  {new URL(url).hostname.replace("www.", "")}
                 </button>
               ))}
             </div>
@@ -93,20 +93,20 @@ export default function Home() {
           <h2>Select Size Variant</h2>
           <div className="size-buttons">
             <button
-              onClick={() => setSelectedSize('small')}
-              className={`size-button ${selectedSize === 'small' ? 'active' : ''}`}
+              onClick={() => setSelectedSize("small")}
+              className={`size-button ${selectedSize === "small" ? "active" : ""}`}
             >
               Small
             </button>
             <button
-              onClick={() => setSelectedSize('medium')}
-              className={`size-button ${selectedSize === 'medium' ? 'active' : ''}`}
+              onClick={() => setSelectedSize("medium")}
+              className={`size-button ${selectedSize === "medium" ? "active" : ""}`}
             >
               Medium
             </button>
             <button
-              onClick={() => setSelectedSize('large')}
-              className={`size-button ${selectedSize === 'large' ? 'active' : ''}`}
+              onClick={() => setSelectedSize("large")}
+              className={`size-button ${selectedSize === "large" ? "active" : ""}`}
             >
               Large
             </button>
@@ -117,8 +117,12 @@ export default function Home() {
         <div className="preview-section">
           <h2>Preview</h2>
           <div className="preview-info">
-            <p><strong>URL:</strong> {testUrl}</p>
-            <p><strong>Size:</strong> {selectedSize}</p>
+            <p>
+              <strong>URL:</strong> {testUrl}
+            </p>
+            <p>
+              <strong>Size:</strong> {selectedSize}
+            </p>
             <p className="success-note">✓ Server-side fetching - No CORS issues!</p>
           </div>
 
@@ -137,13 +141,13 @@ export default function Home() {
               <h3>Extracted Metadata</h3>
               <div className="metadata">
                 <div className="metadata-item">
-                  <strong>Title:</strong> {loadedData.title || '(none)'}
+                  <strong>Title:</strong> {loadedData.title || "(none)"}
                 </div>
                 <div className="metadata-item">
-                  <strong>Description:</strong> {loadedData.description || '(none)'}
+                  <strong>Description:</strong> {loadedData.description || "(none)"}
                 </div>
                 <div className="metadata-item">
-                  <strong>Image URL:</strong> {loadedData.image || '(none)'}
+                  <strong>Image URL:</strong> {loadedData.image || "(none)"}
                 </div>
               </div>
             </div>

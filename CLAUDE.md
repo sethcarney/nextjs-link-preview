@@ -28,6 +28,7 @@ npm run build
 ```
 
 **Output:**
+
 - `dist/index.js` - CommonJS format
 - `dist/index.esm.js` - ES Module format
 - `dist/index.d.ts` - TypeScript declarations
@@ -73,12 +74,14 @@ The library follows a modern Next.js App Router architecture with server-side me
 ### Dependencies
 
 **Next.js Version (Recommended):**
+
 - `next` - Next.js framework with App Router support
 - `react` >= 18.0.0, `react-dom` >= 18.0.0
 - `axios` - HTTP requests for server-side fetching
 - `cheerio` - Server-side HTML parsing and metadata extraction
 
 **Legacy Version:**
+
 - `axios` - HTTP requests for fetching URL content
 - `cheerio` - HTML parsing (limited by CORS in browser)
 - `tslib` - TypeScript runtime helpers
@@ -97,6 +100,7 @@ npm run dev
 ```
 
 The demo runs on [http://localhost:3000](http://localhost:3000) and includes:
+
 - Interactive URL input for testing any link
 - Pre-configured example URLs (GitHub, Twitter, Reddit, etc.)
 - All three size variants with side-by-side comparison
@@ -108,6 +112,7 @@ The demo runs on [http://localhost:3000](http://localhost:3000) and includes:
 ### Making Changes
 
 When modifying the Next.js component:
+
 1. Edit source files in [src/nextjs/](src/nextjs/):
    - [src/nextjs/app/api/preview/route.ts](src/nextjs/app/api/preview/route.ts) - API route logic
    - [src/nextjs/components/LinkPreview.tsx](src/nextjs/components/LinkPreview.tsx) - Client component
@@ -116,6 +121,7 @@ When modifying the Next.js component:
 4. Verify metadata extraction works for various URL types
 
 **For Legacy Version:**
+
 1. Edit files in [src/components/](src/components/) and [src/utils/](src/utils/)
 2. Run `npm run build` to compile
 3. Test in [demo/](demo/) (note: CORS limitations apply)
@@ -123,6 +129,7 @@ When modifying the Next.js component:
 ### TypeScript Configuration
 
 [tsconfig.json](tsconfig.json) is configured for:
+
 - Target: ES6
 - Module: ESNext (Rollup handles module format conversion)
 - JSX: React
@@ -151,15 +158,15 @@ npm install axios cheerio
 ### 3. Use in Your Pages
 
 ```tsx
-import { LinkPreview } from '@/components/LinkPreview';
+import { LinkPreview } from "@/components/LinkPreview";
 
 export default function Page() {
   return (
     <LinkPreview
       url="https://github.com"
       size="medium"
-      onLoad={(data) => console.log('Loaded:', data)}
-      onError={(error) => console.error('Error:', error)}
+      onLoad={(data) => console.log("Loaded:", data)}
+      onError={(error) => console.error("Error:", error)}
     />
   );
 }

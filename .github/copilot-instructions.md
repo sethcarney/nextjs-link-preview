@@ -146,21 +146,18 @@ The legacy React-only version uses Rollup to build CommonJS and ESM formats, but
 ### Code Style
 
 1. **TypeScript:**
-
    - Use strict mode
    - Explicit type annotations for function parameters and return types
    - Interface over type for object shapes
    - No implicit any
 
 2. **React:**
-
    - Functional components with hooks
    - Use React.FC for component typing
    - Optional callback chaining with `?.()` syntax
    - Proper dependency arrays for useEffect
 
 3. **Error Handling:**
-
    - Wrap async operations in try-catch
    - Provide user-friendly error messages
    - Call error callbacks when provided
@@ -315,7 +312,7 @@ npm install axios cheerio
 ### 3. Use the Component
 
 ```tsx
-import { LinkPreview } from '@/components/LinkPreview';
+import { LinkPreview } from "@/components/LinkPreview";
 
 export default function Page() {
   return <LinkPreview url="https://github.com" size="medium" />;

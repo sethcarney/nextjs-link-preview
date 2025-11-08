@@ -29,6 +29,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ## Features
 
 ### Interactive Testing Interface
+
 - **Custom URL Input**: Test any URL you want
 - **Example URLs**: Quick-test buttons for popular sites
 - **Size Variants**: Toggle between Small, Medium, and Large
@@ -36,7 +37,9 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 - **Side-by-Side Comparison**: Compare all three sizes at once
 
 ### No CORS Issues!
+
 Unlike the browser-based version, this Next.js implementation:
+
 - ✅ Works with GitHub
 - ✅ Works with Twitter
 - ✅ Works with Reddit
@@ -45,12 +48,14 @@ Unlike the browser-based version, this Next.js implementation:
 ## How It Works
 
 ### API Route (`src/app/api/preview/route.ts`)
+
 - Receives URL as query parameter
 - Fetches HTML server-side using axios
 - Extracts metadata using Cheerio
 - Returns JSON response
 
 ### Client Component (`src/components/LinkPreview.tsx`)
+
 - Calls the API route (no CORS!)
 - Displays loading/error states
 - Renders preview card with metadata
@@ -95,15 +100,10 @@ npm install axios cheerio
 ### 3. Use in your page
 
 ```tsx
-import { LinkPreview } from '@/components/LinkPreview';
+import { LinkPreview } from "@/components/LinkPreview";
 
 export default function Page() {
-  return (
-    <LinkPreview
-      url="https://github.com"
-      size="medium"
-    />
-  );
+  return <LinkPreview url="https://github.com" size="medium" />;
 }
 ```
 
@@ -114,10 +114,7 @@ That's it! No CORS issues, works with any URL.
 ### Change API Endpoint
 
 ```tsx
-<LinkPreview
-  url="https://example.com"
-  apiEndpoint="/api/custom-preview"
-/>
+<LinkPreview url="https://example.com" apiEndpoint="/api/custom-preview" />
 ```
 
 ### Add Callbacks
@@ -125,24 +122,21 @@ That's it! No CORS issues, works with any URL.
 ```tsx
 <LinkPreview
   url="https://example.com"
-  onLoad={(data) => console.log('Loaded:', data)}
-  onError={(error) => console.error('Error:', error)}
+  onLoad={(data) => console.log("Loaded:", data)}
+  onError={(error) => console.error("Error:", error)}
 />
 ```
 
 ### Custom Styling
 
 ```tsx
-<LinkPreview
-  url="https://example.com"
-  width="400px"
-  className="my-custom-class"
-/>
+<LinkPreview url="https://example.com" width="400px" className="my-custom-class" />
 ```
 
 ## Production Deployment
 
 This demo can be deployed to:
+
 - Vercel (recommended for Next.js)
 - Netlify
 - Any Node.js hosting platform

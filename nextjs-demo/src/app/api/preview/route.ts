@@ -7,18 +7,15 @@ export async function GET(request: NextRequest) {
   const targetUrl = searchParams.get("url");
 
   if (!targetUrl) {
-    return NextResponse.json(
-      { error: "URL parameter is required" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "URL parameter is required" }, { status: 400 });
   }
 
   try {
     const response = await axios.get(targetUrl, {
       headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; LinkPreviewBot/1.0)",
+        "User-Agent": "Mozilla/5.0 (compatible; LinkPreviewBot/1.0)"
       },
-      timeout: 10000,
+      timeout: 10000
     });
 
     const $ = cheerio.load(response.data);
@@ -38,15 +35,12 @@ export async function GET(request: NextRequest) {
         $('meta[property="og:image"]').attr("content") ||
         $('meta[name="twitter:image"]').attr("content") ||
         "",
-      url: targetUrl,
+      url: targetUrl
     };
 
     return NextResponse.json(metadata);
   } catch (error) {
     console.error("Error fetching preview:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch preview" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch preview" }, { status: 500 });
   }
 }

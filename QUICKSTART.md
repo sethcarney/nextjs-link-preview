@@ -13,6 +13,7 @@ npm run demo
 ```
 
 This will:
+
 1. Start a Next.js development server
 2. Automatically open your browser at http://localhost:3000
 3. Show you an interactive interface to test URLs
@@ -22,24 +23,29 @@ This will:
 The demo application includes:
 
 ### 1. Custom URL Testing
+
 - Enter any URL in the input field
 - Click "Test Preview" to see the link preview
 - **Works with ANY URL** - no CORS issues!
 
 ### 2. Example URLs
+
 - Quick-test buttons for popular websites
 - One-click testing of GitHub, Wikipedia, Stack Overflow, Twitter, Reddit, etc.
 - ✅ All work perfectly (no CORS issues!)
 
 ### 3. Size Variants
+
 - Toggle between **Small**, **Medium**, and **Large** sizes
 - See how each size affects the preview display
 
 ### 4. Metadata Viewer
+
 - View extracted title, description, and image URL
 - Understand what data was scraped from the link
 
 ### 5. Side-by-Side Comparison
+
 - Compare all three size variants at once
 - See the differences in layout and text truncation
 
@@ -52,6 +58,7 @@ Unlike browser-based React components, this Next.js implementation has **NO CORS
 ✅ **Works with any public URL** - GitHub, Twitter, Reddit, etc.
 
 **What works:**
+
 - github.com ✅
 - twitter.com ✅
 - reddit.com ✅
@@ -78,12 +85,10 @@ npm install axios cheerio
 ### 3. Use the Component
 
 ```tsx
-import { LinkPreview } from '@/components/LinkPreview';
+import { LinkPreview } from "@/components/LinkPreview";
 
 export default function Page() {
-  return (
-    <LinkPreview url="https://github.com" size="medium" />
-  );
+  return <LinkPreview url="https://github.com" size="medium" />;
 }
 ```
 
