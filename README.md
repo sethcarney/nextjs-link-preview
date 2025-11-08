@@ -14,6 +14,7 @@ A customizable Next.js component for generating beautiful link preview cards wit
 
 - Automatically extracts Open Graph and meta tags from URLs
 - Three size variants: small, medium, and large
+- Two layout options: vertical (image top) and horizontal (image left)
 - Fully customizable styling
 - TypeScript support
 - Loading and error states
@@ -90,6 +91,24 @@ export default function Page() {
 }
 ```
 
+### With Horizontal Layout
+
+```tsx
+import { LinkPreview } from '@/components/LinkPreview';
+
+export default function Page() {
+  return (
+    <div>
+      {/* Horizontal layout - image on left, text on right */}
+      <LinkPreview url="https://github.com" layout="horizontal" size="medium" />
+
+      {/* Vertical layout (default) - image on top, text below */}
+      <LinkPreview url="https://github.com" layout="vertical" size="medium" />
+    </div>
+  );
+}
+```
+
 ### With Custom Styling
 
 ```tsx
@@ -118,6 +137,7 @@ export default function Page() {
 |------|------|---------|-------------|
 | `url` | `string` | **required** | The URL to generate a preview for |
 | `size` | `"small"` \| `"medium"` \| `"large"` | `"medium"` | Size variant of the preview card |
+| `layout` | `"vertical"` \| `"horizontal"` | `"vertical"` | Layout: vertical (image top, text below) or horizontal (image left, text right) |
 | `width` | `string` \| `number` | `"100%"` | Width of the preview card |
 | `height` | `string` \| `number` | `"auto"` | Height of the preview card |
 | `className` | `string` | `""` | Additional CSS class name |

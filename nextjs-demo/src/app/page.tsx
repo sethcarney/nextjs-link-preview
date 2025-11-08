@@ -160,7 +160,7 @@ export default function Home() {
 
         {/* All Sizes Preview */}
         <div className="all-sizes-section">
-          <h2>All Size Variants</h2>
+          <h2>All Size Variants (Vertical)</h2>
           <p>Compare all three size variants side by side:</p>
           <div className="sizes-grid">
             <div className="size-preview">
@@ -174,6 +174,26 @@ export default function Home() {
             <div className="size-preview">
               <h3>Large</h3>
               <LinkPreview url={testUrl} size="large" />
+            </div>
+          </div>
+        </div>
+
+        {/* Horizontal Layout Preview */}
+        <div className="all-sizes-section">
+          <h2>Horizontal Layout</h2>
+          <p>Image on the left, text on the right:</p>
+          <div className="horizontal-grid">
+            <div className="size-preview">
+              <h3>Small - Horizontal</h3>
+              <LinkPreview url={testUrl} size="small" layout="horizontal" />
+            </div>
+            <div className="size-preview">
+              <h3>Medium - Horizontal</h3>
+              <LinkPreview url={testUrl} size="medium" layout="horizontal" />
+            </div>
+            <div className="size-preview">
+              <h3>Large - Horizontal</h3>
+              <LinkPreview url={testUrl} size="large" layout="horizontal" />
             </div>
           </div>
         </div>

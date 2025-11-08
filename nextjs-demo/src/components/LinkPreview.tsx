@@ -22,10 +22,12 @@ export interface LinkPreviewData {
 }
 
 export type LinkPreviewSize = 'small' | 'medium' | 'large';
+export type LinkPreviewLayout = 'vertical' | 'horizontal';
 
 export interface LinkPreviewProps {
   url: string;
   size?: LinkPreviewSize;
+  layout?: LinkPreviewLayout;
   width?: string | number;
   height?: string | number;
   className?: string;
@@ -37,6 +39,7 @@ export interface LinkPreviewProps {
 const sizeConfig = {
   small: {
     imageHeight: '120px',
+    imageWidth: '120px',
     titleSize: '14px',
     descriptionSize: '12px',
     padding: '8px',
@@ -44,6 +47,7 @@ const sizeConfig = {
   },
   medium: {
     imageHeight: '200px',
+    imageWidth: '200px',
     titleSize: '16px',
     descriptionSize: '14px',
     padding: '12px',
@@ -51,6 +55,7 @@ const sizeConfig = {
   },
   large: {
     imageHeight: '300px',
+    imageWidth: '280px',
     titleSize: '20px',
     descriptionSize: '16px',
     padding: '16px',
@@ -61,6 +66,7 @@ const sizeConfig = {
 export function LinkPreview({
   url,
   size = 'medium',
+  layout = 'vertical',
   width = '100%',
   height = 'auto',
   className = '',
@@ -139,6 +145,8 @@ export function LinkPreview({
     return null;
   }
 
+  const isHorizontal = layout === 'horizontal';
+
   return (
     <a
       href={url}
@@ -146,7 +154,8 @@ export function LinkPreview({
       rel="noopener noreferrer"
       className={`link-preview ${className}`}
       style={{
-        display: 'block',
+        display: isHorizontal ? 'flex' : 'block',
+        flexDirection: isHorizontal ? 'row' : undefined,
         width,
         height,
         textDecoration: 'none',
@@ -166,15 +175,23 @@ export function LinkPreview({
       {data.image && (
         <div
           style={{
-            width: '100%',
-            height: config.imageHeight,
+            width: isHorizontal ? config.imageWidth : '100%',
+            height: isHorizontal ? '100%' : config.imageHeight,
+            minHeight: isHorizontal ? config.imageHeight : undefined,
+            flexShrink: isHorizontal ? 0 : undefined,
             backgroundImage: `url(${data.image})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
         />
       )}
-      <div style={{ padding: config.padding }}>
+      <div style={{
+        padding: config.padding,
+        flex: isHorizontal ? 1 : undefined,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center'
+      }}>
         {data.title && (
           <h3 style={{ margin: '0 0 8px 0', fontSize: config.titleSize }}>
             {data.title}

@@ -276,3 +276,14 @@ h3 {
   font-weight: 600;
   margin-top: 0.5rem;
 }
+
+.horizontal-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.horizontal-grid .size-preview {
+  width: 100%;
+}
