@@ -27,6 +27,7 @@ export async function fetchMetadata(url: string): Promise<LinkPreviewData> {
 
     return metadata;
   } catch (error) {
-    throw new Error(`Failed to fetch metadata: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    throw new Error(`Failed to fetch metadata: ${errorMessage}`);
   }
 }

@@ -1,0 +1,25 @@
+# Source files
+src/
+
+# Configuration files
+tsconfig.json
+rollup.config.js
+
+# Development files
+node_modules/
+.git/
+.gitignore
+
+# Build artifacts (keep only dist/)
+*.log
+*.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

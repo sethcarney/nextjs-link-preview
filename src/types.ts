@@ -5,8 +5,11 @@ export interface LinkPreviewData {
   url: string;
 }
 
+export type LinkPreviewSize = "small" | "medium" | "large";
+
 export interface LinkPreviewProps {
   url: string;
+  size?: LinkPreviewSize;
   width?: string | number;
   height?: string | number;
   className?: string;

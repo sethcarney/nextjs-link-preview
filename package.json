@@ -1,9 +1,30 @@
 {
   "name": "react-link-preview",
   "version": "1.0.0",
+  "description": "A customizable React component for generating beautiful link preview cards with images, titles, and descriptions",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "react",
+    "link-preview",
+    "preview",
+    "metadata",
+    "opengraph",
+    "og",
+    "card",
+    "component",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"

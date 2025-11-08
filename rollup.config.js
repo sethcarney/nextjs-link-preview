@@ -15,5 +15,13 @@ export default {
     }
   ],
   external: ["react", "react-dom", "axios", "cheerio"],
-  plugins: [typescript(), resolve(), commonjs()]
+  plugins: [
+    typescript({
+      declaration: true,
+      declarationDir: "dist",
+      rootDir: "src"
+    }),
+    resolve(),
+    commonjs()
+  ]
 };

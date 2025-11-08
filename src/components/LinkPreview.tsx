@@ -2,8 +2,33 @@ import React, { useEffect, useState } from "react";
 import { LinkPreviewData, LinkPreviewProps } from "../types";
 import { fetchMetadata } from "../utils/metadata";
 
+const sizeConfig = {
+  small: {
+    imageHeight: "120px",
+    titleSize: "14px",
+    descriptionSize: "12px",
+    padding: "8px",
+    lineClamp: 1
+  },
+  medium: {
+    imageHeight: "200px",
+    titleSize: "16px",
+    descriptionSize: "14px",
+    padding: "12px",
+    lineClamp: 2
+  },
+  large: {
+    imageHeight: "300px",
+    titleSize: "20px",
+    descriptionSize: "16px",
+    padding: "16px",
+    lineClamp: 3
+  }
+};
+
 const LinkPreview: React.FC<LinkPreviewProps> = ({
   url,
+  size = "medium",
   width = "100%",
   height = "auto",
   className = "",
@@ -13,6 +38,8 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({
   const [data, setData] = useState<LinkPreviewData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+
+  const config = sizeConfig[size];
 
   useEffect(() => {
     const loadMetadata = async () => {
@@ -66,23 +93,27 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({
         <div
           style={{
             width: "100%",
-            height: "200px",
+            height: config.imageHeight,
             backgroundImage: `url(${data.image})`,
             backgroundSize: "cover",
             backgroundPosition: "center"
           }}
         />
       )}
-      <div style={{ padding: "12px" }}>
-        {data.title && <h3 style={{ margin: "0 0 8px 0", fontSize: "16px" }}>{data.title}</h3>}
+      <div style={{ padding: config.padding }}>
+        {data.title && (
+          <h3 style={{ margin: "0 0 8px 0", fontSize: config.titleSize }}>
+            {data.title}
+          </h3>
+        )}
         {data.description && (
           <p
             style={{
               margin: 0,
-              fontSize: "14px",
+              fontSize: config.descriptionSize,
               color: "#666",
               display: "-webkit-box",
-              WebkitLineClamp: 2,
+              WebkitLineClamp: config.lineClamp,
               WebkitBoxOrient: "vertical",
               overflow: "hidden"
             }}
