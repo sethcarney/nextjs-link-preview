@@ -24,26 +24,32 @@ A customizable Next.js component for generating beautiful link preview cards wit
 
 ## Quick Start
 
-### 1. Copy Files to Your Next.js Project
+### 1. Install the Package
 
 ```bash
-# Copy the API route
-cp src/nextjs/app/api/preview/route.ts YOUR_PROJECT/app/api/preview/route.ts
-
-# Copy the component
-cp src/nextjs/components/LinkPreview.tsx YOUR_PROJECT/components/LinkPreview.tsx
+npm install nextjs-link-preview
 ```
 
-### 2. Install Dependencies
+### 2. Set Up the API Route
+
+Run the setup command to automatically create the API route in your Next.js project:
+
+```bash
+npx nextjs-link-preview
+```
+
+This will create `app/api/preview/route.ts` in your project.
+
+### 3. Install Peer Dependencies
 
 ```bash
 npm install axios cheerio
 ```
 
-### 3. Use the Component
+### 4. Use the Component
 
 ```tsx
-import { LinkPreview } from '@/components/LinkPreview';
+import { LinkPreview } from "nextjs-link-preview";
 
 export default function Page() {
   return (
@@ -61,19 +67,17 @@ That's it! No CORS issues, works with any URL.
 ### Basic Example
 
 ```tsx
-import { LinkPreview } from '@/components/LinkPreview';
+import { LinkPreview } from "nextjs-link-preview";
 
 export default function Page() {
-  return (
-    <LinkPreview url="https://github.com" />
-  );
+  return <LinkPreview url="https://github.com" />;
 }
 ```
 
 ### With Size Variants
 
 ```tsx
-import { LinkPreview } from '@/components/LinkPreview';
+import { LinkPreview } from "nextjs-link-preview";
 
 export default function Page() {
   return (
@@ -94,7 +98,7 @@ export default function Page() {
 ### With Horizontal Layout
 
 ```tsx
-import { LinkPreview } from '@/components/LinkPreview';
+import { LinkPreview } from "@/components/LinkPreview";
 
 export default function Page() {
   return (
@@ -112,11 +116,7 @@ export default function Page() {
 ### With Custom Styling
 
 ```tsx
-<LinkPreview
-  url="https://github.com"
-  width="400px"
-  className="my-custom-class"
-/>
+<LinkPreview url="https://github.com" width="400px" className="my-custom-class" />
 ```
 
 ### With Callbacks
@@ -124,8 +124,8 @@ export default function Page() {
 ```tsx
 <LinkPreview
   url="https://github.com"
-  onLoad={(data) => console.log('Loaded:', data)}
-  onError={(error) => console.error('Error:', error)}
+  onLoad={(data) => console.log("Loaded:", data)}
+  onError={(error) => console.error("Error:", error)}
 />
 ```
 
@@ -133,34 +133,34 @@ export default function Page() {
 
 ### LinkPreview Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `url` | `string` | **required** | The URL to generate a preview for |
-| `size` | `"small"` \| `"medium"` \| `"large"` | `"medium"` | Size variant of the preview card |
-| `layout` | `"vertical"` \| `"horizontal"` | `"vertical"` | Layout: vertical (image top, text below) or horizontal (image left, text right) |
-| `width` | `string` \| `number` | `"100%"` | Width of the preview card |
-| `height` | `string` \| `number` | `"auto"` | Height of the preview card |
-| `className` | `string` | `""` | Additional CSS class name |
-| `apiEndpoint` | `string` | `"/api/preview"` | Custom API endpoint (if you moved the route) |
-| `onLoad` | `(data: LinkPreviewData) => void` | `undefined` | Callback when metadata is loaded |
-| `onError` | `(error: Error) => void` | `undefined` | Callback when loading fails |
+| Prop          | Type                                 | Default          | Description                                                                     |
+| ------------- | ------------------------------------ | ---------------- | ------------------------------------------------------------------------------- |
+| `url`         | `string`                             | **required**     | The URL to generate a preview for                                               |
+| `size`        | `"small"` \| `"medium"` \| `"large"` | `"medium"`       | Size variant of the preview card                                                |
+| `layout`      | `"vertical"` \| `"horizontal"`       | `"vertical"`     | Layout: vertical (image top, text below) or horizontal (image left, text right) |
+| `width`       | `string` \| `number`                 | `"100%"`         | Width of the preview card                                                       |
+| `height`      | `string` \| `number`                 | `"auto"`         | Height of the preview card                                                      |
+| `className`   | `string`                             | `""`             | Additional CSS class name                                                       |
+| `apiEndpoint` | `string`                             | `"/api/preview"` | Custom API endpoint (if you moved the route)                                    |
+| `onLoad`      | `(data: LinkPreviewData) => void`    | `undefined`      | Callback when metadata is loaded                                                |
+| `onError`     | `(error: Error) => void`             | `undefined`      | Callback when loading fails                                                     |
 
 ### Size Variants
 
-| Size | Image Height | Title Size | Description Lines | Padding |
-|------|--------------|------------|------------------|---------|
-| `small` | 120px | 14px | 1 line | 8px |
-| `medium` | 200px | 16px | 2 lines | 12px |
-| `large` | 300px | 20px | 3 lines | 16px |
+| Size     | Image Height | Title Size | Description Lines | Padding |
+| -------- | ------------ | ---------- | ----------------- | ------- |
+| `small`  | 120px        | 14px       | 1 line            | 8px     |
+| `medium` | 200px        | 16px       | 2 lines           | 12px    |
+| `large`  | 300px        | 20px       | 3 lines           | 16px    |
 
 ### LinkPreviewData Type
 
 ```typescript
 interface LinkPreviewData {
-  title: string;       // Page title (from og:title or <title>)
+  title: string; // Page title (from og:title or <title>)
   description: string; // Page description (from og:description or meta description)
-  image: string;       // Preview image URL (from og:image or twitter:image)
-  url: string;         // Original URL
+  image: string; // Preview image URL (from og:image or twitter:image)
+  url: string; // Original URL
 }
 ```
 
@@ -179,6 +179,7 @@ npm run demo
 ```
 
 The demo application will open in your browser at http://localhost:3000 with:
+
 - Interactive URL input for testing any link
 - Pre-configured example URLs for popular sites
 - Toggle between small, medium, and large sizes
@@ -191,6 +192,7 @@ The demo application will open in your browser at http://localhost:3000 with:
 ### 1. API Route (`app/api/preview/route.ts`)
 
 The Next.js API route runs on the server and:
+
 - Receives the URL as a query parameter
 - Fetches the HTML using axios
 - Parses metadata using Cheerio
@@ -201,6 +203,7 @@ This bypasses CORS because it's a server-to-server request.
 ### 2. Client Component (`components/LinkPreview.tsx`)
 
 The React component:
+
 - Calls the API route (no CORS!)
 - Handles loading and error states
 - Renders the preview card with metadata
@@ -217,6 +220,7 @@ vercel deploy
 ### Other Platforms
 
 This works on any platform that supports Next.js:
+
 - Netlify
 - AWS Amplify
 - Railway
@@ -249,12 +253,14 @@ nextjs-link-preview/
 ## Dependencies
 
 ### Required
+
 - **Next.js** >= 14.0.0
 - **React** >= 18.0.0
 - **axios** - For HTTP requests
 - **cheerio** - For HTML parsing and metadata extraction
 
 ### Dev Dependencies
+
 - TypeScript
 - Node types
 
@@ -271,6 +277,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ### "Module not found" errors
 
 Make sure you've installed all dependencies:
+
 ```bash
 npm install axios cheerio
 ```

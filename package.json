@@ -1,6 +1,7 @@
 {
   "name": "nextjs-link-preview",
   "version": "1.0.0",
+  "type": "module",
   "description": "A Next.js component for generating beautiful link preview cards with server-side metadata fetching - No CORS issues!",
   "keywords": [
     "nextjs",
@@ -16,15 +17,53 @@
     "typescript",
     "server-side"
   ],
-  "author": "",
+  "author": "Seth Carney",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/sethcarney/nextjs-link-preview"
+  },
+  "homepage": "https://github.com/sethcarney/nextjs-link-preview#readme",
+  "bugs": {
+    "url": "https://github.com/sethcarney/nextjs-link-preview/issues"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
+  "bin": {
+    "nextjs-link-preview": "./bin/setup.js"
   },
   "scripts": {
+    "build": "rollup -c",
+    "prepublishOnly": "npm run build",
     "demo": "cd nextjs-demo && npm run dev",
     "demo:install": "cd nextjs-demo && npm install",
     "demo:build": "cd nextjs-demo && npm run build"
+  },
+  "peerDependencies": {
+    "next": ">=14.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "rollup": "^4.53.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "tslib": "^2.8.1",
+    "typescript": "^5.9.3"
   }
 }
