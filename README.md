@@ -8,6 +8,7 @@ A Next.js component for generating beautiful link preview cards with server-side
 
 - ✅ Server-side fetching via Next.js API routes (no CORS!)
 - ✅ Automatic Open Graph and meta tag extraction
+- ✅ Built-in caching (1-hour TTL) to reduce server load and prevent rate limiting
 - ✅ Three size variants (small, medium, large)
 - ✅ Two layouts (vertical, horizontal)
 - ✅ TypeScript support
@@ -105,8 +106,22 @@ npm run format
 ## How It Works
 
 1. **API Route**: Next.js API route fetches HTML server-side (no CORS!)
-2. **Metadata Extraction**: Cheerio parses Open Graph and meta tags
-3. **Component**: React component displays the preview card
+2. **Caching**: In-memory cache with 1-hour TTL reduces redundant requests and prevents rate limiting
+3. **Metadata Extraction**: Cheerio parses Open Graph and meta tags
+4. **Component**: React component displays the preview card
+
+### Caching Behavior
+
+The API route includes built-in caching to improve performance and prevent websites from blocking automated requests:
+
+- **Cache Duration**: 1 hour (3600 seconds)
+- **Cache Type**: In-memory Map (resets on server restart)
+- **Benefits**:
+  - Reduces server load and response time for frequently accessed URLs
+  - Prevents rate limiting from target websites
+  - Improves user experience with faster previews
+
+If you need to customize the cache TTL, you can modify the `CACHE_TTL` constant in your generated API route file.
 
 ## License
 

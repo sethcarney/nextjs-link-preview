@@ -10,6 +10,10 @@ const API_ROUTE_CONTENT = `import { NextRequest, NextResponse } from "next/serve
 import axios from "axios";
 import * as cheerio from "cheerio";
 
+// Simple in-memory cache with 1 hour TTL
+const cache = new Map<string, { data: any; timestamp: number }>();
+const CACHE_TTL = 60 * 60 * 1000; // 1 hour
+
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const targetUrl = searchParams.get("url");
@@ -19,6 +23,12 @@ export async function GET(request: NextRequest) {
       { error: "URL parameter is required" },
       { status: 400 }
     );
+  }
+
+  // Check cache first
+  const cached = cache.get(targetUrl);
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    return NextResponse.json(cached.data);
   }
 
   try {
@@ -48,6 +58,9 @@ export async function GET(request: NextRequest) {
         "",
       url: targetUrl,
     };
+
+    // Store in cache
+    cache.set(targetUrl, { data: metadata, timestamp: Date.now() });
 
     return NextResponse.json(metadata);
   } catch (error) {
