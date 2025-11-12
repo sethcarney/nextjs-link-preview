@@ -1,6 +1,6 @@
 {
   "name": "nextjs-link-preview",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "type": "module",
   "description": "A Next.js component for generating beautiful link preview cards with server-side metadata fetching - No CORS issues!",
   "keywords": [
