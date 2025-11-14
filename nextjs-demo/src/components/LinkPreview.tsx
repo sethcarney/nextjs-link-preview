@@ -1,39 +1,48 @@
 "use client";
 
 /**
- * Next.js Link Preview Component
+ * Simple Link Preview Component
  *
- * This component uses the Next.js API route to fetch metadata server-side,
- * avoiding CORS issues entirely.
+ * Usage with custom image:
+ *   <LinkPreview
+ *     url="https://example.com"
+ *     title="Example"
+ *     description="Example description"
+ *     image="https://example.com/image.png"
+ *   />
  *
- * Usage:
- *   import { LinkPreview } from './components/LinkPreview';
- *
- *   <LinkPreview url="https://github.com" size="medium" />
+ * Usage with preset:
+ *   <LinkPreview
+ *     url="https://github.com/user/repo"
+ *     title="My Repo"
+ *     description="A cool repository"
+ *     preset="github"
+ *   />
  */
 
-import React, { useEffect, useState } from "react";
-
-export interface LinkPreviewData {
-  title: string;
-  description: string;
-  image: string;
-  url: string;
-}
+import React from "react";
 
 export type LinkPreviewSize = "small" | "medium" | "large";
 export type LinkPreviewLayout = "vertical" | "horizontal";
+export type LinkPreviewPreset = "github" | "npm";
+
+// Inline SVG data URIs for preset images
+const PRESET_IMAGES: Record<LinkPreviewPreset, string> = {
+  github: `data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTgiIGhlaWdodD0iOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00OC44NTQgMEMyMS44MzkgMCAwIDIyIDAgNDkuMjE3YzAgMjEuNzU2IDEzLjk5MyA0MC4xNzIgMzMuNDA1IDQ2LjY5IDIuNDI3LjQ5IDMuMzE2LTEuMDU5IDMuMzE2LTIuMzYyIDAtMS4xNDEtLjA4LTUuMDUyLS4wOC05LjEyNy0xMy41OSAyLjkzNC0xNi40Mi01Ljg2Ny0xNi40Mi01Ljg2Ny0yLjE4NC01LjcwNC01LjQyLTcuMTctNS40Mi03LjE3LTQuNDQ4LTMuMDE1LjMyNC0zLjAxNS4zMjQtMy4wMTUgNC45MzQuMzI2IDcuNTIzIDUuMDUyIDcuNTIzIDUuMDUyIDQuMzY3IDcuNDk2IDExLjQwNCA1LjM3OCAxNC4yMzUgNC4wNzQuNDA0LTMuMTc4IDEuNjk5LTUuMzc4IDMuMDc0LTYuNi0xMC44MzktMS4xNDEtMjIuMjQzLTUuMzc4LTIyLjI0My0yNC4yODMgMC01LjM3OCAxLjk0LTkuNzc4IDUuMDE0LTEzLjItLjQ4NS0xLjIyMi0yLjE4NC02LjI3NS40ODYtMTMuMDM4IDAgMCA0LjEyNS0xLjMwNCAxMy40MjYgNS4wNTJhNDYuOTcgNDYuOTcgMCAwIDEgMTIuMjE0LTEuNjNjNC4xMjUgMCA4LjMzLjU3MSAxMi4yMTMgMS42MyA5LjMwMi02LjM1NiAxMy40MjctNS4wNTIgMTMuNDI3LTUuMDUyIDIuNjcgNi43NjMuOTcgMTEuODE2LjQ4NSAxMy4wMzggMy4xNTUgMy40MjIgNS4wMTUgNy44MjIgNS4wMTUgMTMuMiAwIDE4LjkwNS0xMS40MDQgMjMuMDYtMjIuMzI0IDI0LjI4MyAxLjc4IDEuNTQ4IDMuMzE2IDQuNDgxIDMuMzE2IDkuMTI2IDAgNi42LS4wOCAxMS44OTctLjA4IDEzLjUyNiAwIDEuMzA0Ljg5IDIuODUzIDMuMzE2IDIuMzY0IDE5LjQxMi02LjUyIDMzLjQwNS0yNC45MzUgMzMuNDA1LTQ2LjY5MUM5Ny43MDcgMjIgNzUuNzg4IDAgNDguODU0IDB6IiBmaWxsPSIjMjQyOTJmIi8+PC9zdmc+`,
+  npm: "https://avatars.githubusercontent.com/u/6078720?s=200&v=4"
+};
 
 export interface LinkPreviewProps {
   url: string;
+  title: string;
+  description?: string;
+  image?: string;
+  preset?: LinkPreviewPreset;
   size?: LinkPreviewSize;
   layout?: LinkPreviewLayout;
   width?: string | number;
   height?: string | number;
   className?: string;
-  onError?: (error: Error) => void;
-  onLoad?: (data: LinkPreviewData) => void;
-  apiEndpoint?: string; // Override the API endpoint if needed
 }
 
 const sizeConfig = {
@@ -65,86 +74,21 @@ const sizeConfig = {
 
 export function LinkPreview({
   url,
+  title,
+  description,
+  image,
+  preset,
   size = "medium",
   layout = "vertical",
   width = "100%",
   height = "auto",
-  className = "",
-  onError,
-  onLoad,
-  apiEndpoint = "/api/preview"
+  className = ""
 }: LinkPreviewProps) {
-  const [data, setData] = useState<LinkPreviewData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-
   const config = sizeConfig[size];
-
-  useEffect(() => {
-    const fetchMetadata = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const response = await fetch(`${apiEndpoint}?url=${encodeURIComponent(url)}`);
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || "Failed to fetch metadata");
-        }
-
-        const metadata = await response.json();
-        setData(metadata);
-        onLoad?.(metadata);
-      } catch (err) {
-        const error = err instanceof Error ? err : new Error("Unknown error");
-        setError(error);
-        onError?.(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMetadata();
-  }, [url, apiEndpoint]); // Don't include callbacks in dependencies to avoid infinite loops
-
-  if (loading) {
-    return (
-      <div
-        style={{
-          padding: "1rem",
-          textAlign: "center",
-          color: "#666",
-          border: "1px solid #e0e0e0",
-          borderRadius: "8px",
-          background: "#f9f9f9"
-        }}
-      >
-        Loading preview...
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div
-        style={{
-          padding: "1rem",
-          background: "#fff3f3",
-          border: "1px solid #f44336",
-          borderRadius: "8px"
-        }}
-      >
-        <strong style={{ color: "#d32f2f" }}>Error loading preview:</strong> {error.message}
-      </div>
-    );
-  }
-
-  if (!data) {
-    return null;
-  }
-
   const isHorizontal = layout === "horizontal";
+
+  // Use preset image if no custom image provided
+  const imageUrl = image || (preset ? PRESET_IMAGES[preset] : undefined);
 
   return (
     <a
@@ -171,14 +115,14 @@ export function LinkPreview({
         (e.currentTarget as HTMLElement).style.boxShadow = "none";
       }}
     >
-      {data.image && (
+      {imageUrl && (
         <div
           style={{
             width: isHorizontal ? config.imageWidth : "100%",
             height: isHorizontal ? "100%" : config.imageHeight,
             minHeight: isHorizontal ? config.imageHeight : undefined,
             flexShrink: isHorizontal ? 0 : undefined,
-            backgroundImage: `url(${data.image})`,
+            backgroundImage: `url(${imageUrl})`,
             backgroundSize: "cover",
             backgroundPosition: "center"
           }}
@@ -193,10 +137,8 @@ export function LinkPreview({
           justifyContent: "center"
         }}
       >
-        {data.title && (
-          <h3 style={{ margin: "0 0 8px 0", fontSize: config.titleSize }}>{data.title}</h3>
-        )}
-        {data.description && (
+        <h3 style={{ margin: "0 0 8px 0", fontSize: config.titleSize }}>{title}</h3>
+        {description && (
           <p
             style={
               {
@@ -210,7 +152,7 @@ export function LinkPreview({
               } as React.CSSProperties
             }
           >
-            {data.description}
+            {description}
           </p>
         )}
       </div>

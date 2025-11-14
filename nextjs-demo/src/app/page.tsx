@@ -1,205 +1,254 @@
 "use client";
 
 import { useState } from "react";
-import { LinkPreview, LinkPreviewSize, LinkPreviewData } from "nextjs-link-preview";
+import { LinkPreview, LinkPreviewSize, LinkPreviewPreset } from "../components/LinkPreview";
 import "./page.css";
 
-const exampleUrls = [
-  "https://github.com",
-  "https://www.wikipedia.org",
-  "https://stackoverflow.com",
-  "https://www.youtube.com",
-  "https://twitter.com",
-  "https://www.reddit.com",
-  "https://medium.com",
-  "https://dev.to"
+const presetExamples = [
+  {
+    url: "https://github.com/vercel/next.js",
+    title: "Next.js",
+    description: "The React Framework for the Web",
+    preset: "github" as LinkPreviewPreset
+  },
+  {
+    url: "https://github.com/facebook/react",
+    title: "React",
+    description: "A JavaScript library for building user interfaces",
+    preset: "github" as LinkPreviewPreset
+  },
+  {
+    url: "https://www.npmjs.com/package/react",
+    title: "react",
+    description: "React is a JavaScript library for building user interfaces.",
+    preset: "npm" as LinkPreviewPreset
+  },
+  {
+    url: "https://www.npmjs.com/package/next",
+    title: "next",
+    description: "The React Framework",
+    preset: "npm" as LinkPreviewPreset
+  }
 ];
 
+const customImageExample = {
+  url: "https://example.com/article",
+  title: "How to Build Amazing Web Apps",
+  description: "Learn the best practices for modern web development with React and Next.js",
+  image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80"
+};
+
 export default function Home() {
-  const [customUrl, setCustomUrl] = useState("");
-  const [testUrl, setTestUrl] = useState("https://github.com");
   const [selectedSize, setSelectedSize] = useState<LinkPreviewSize>("medium");
-  const [loadedData, setLoadedData] = useState<LinkPreviewData | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleTest = () => {
-    if (customUrl.trim()) {
-      setTestUrl(customUrl.trim());
-      setLoadedData(null);
-      setError(null);
-    }
-  };
-
-  const handleExampleClick = (url: string) => {
-    setCustomUrl(url);
-    setTestUrl(url);
-    setLoadedData(null);
-    setError(null);
-  };
-
-  const handleLoad = (data: LinkPreviewData) => {
-    setLoadedData(data);
-    setError(null);
-  };
-
-  const handleError = (err: Error) => {
-    setError(err.message);
-    setLoadedData(null);
-  };
+  const [selectedLayout, setSelectedLayout] = useState<"vertical" | "horizontal">("vertical");
 
   return (
     <div className="app">
       <header className="header">
-        <h1>Next.js Link Preview - Test Suite</h1>
-        <p>Test the link preview component with server-side rendering - No CORS issues!</p>
+        <h1>Next.js Link Preview - Demo</h1>
+        <p>A simple, lightweight component for displaying beautiful link preview cards</p>
       </header>
 
       <div className="container">
-        {/* URL Input Section */}
-        <div className="input-section">
-          <h2>Enter URL to Preview</h2>
-          <div className="url-input-group">
-            <input
-              type="url"
-              value={customUrl}
-              onChange={(e) => setCustomUrl(e.target.value)}
-              placeholder="Enter a URL (e.g., https://github.com)"
-              className="url-input"
-              onKeyPress={(e) => e.key === "Enter" && handleTest()}
-            />
-            <button onClick={handleTest} className="test-button">
-              Test Preview
-            </button>
+        {/* Size & Layout Controls */}
+        <div className="controls-section">
+          <div className="control-group">
+            <h3>Size Variant</h3>
+            <div className="size-buttons">
+              <button
+                onClick={() => setSelectedSize("small")}
+                className={`size-button ${selectedSize === "small" ? "active" : ""}`}
+              >
+                Small
+              </button>
+              <button
+                onClick={() => setSelectedSize("medium")}
+                className={`size-button ${selectedSize === "medium" ? "active" : ""}`}
+              >
+                Medium
+              </button>
+              <button
+                onClick={() => setSelectedSize("large")}
+                className={`size-button ${selectedSize === "large" ? "active" : ""}`}
+              >
+                Large
+              </button>
+            </div>
           </div>
 
-          <div className="example-urls">
-            <h3>Example URLs:</h3>
-            <div className="url-chips">
-              {exampleUrls.map((url) => (
-                <button
-                  key={url}
-                  onClick={() => handleExampleClick(url)}
-                  className={`url-chip ${testUrl === url ? "active" : ""}`}
-                >
-                  {new URL(url).hostname.replace("www.", "")}
-                </button>
+          <div className="control-group">
+            <h3>Layout</h3>
+            <div className="size-buttons">
+              <button
+                onClick={() => setSelectedLayout("vertical")}
+                className={`size-button ${selectedLayout === "vertical" ? "active" : ""}`}
+              >
+                Vertical
+              </button>
+              <button
+                onClick={() => setSelectedLayout("horizontal")}
+                className={`size-button ${selectedLayout === "horizontal" ? "active" : ""}`}
+              >
+                Horizontal
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* GitHub Preset Examples */}
+        <div className="section">
+          <h2>GitHub Preset</h2>
+          <p>Using the built-in GitHub logo preset</p>
+          <div className="preview-grid">
+            {presetExamples
+              .filter((ex) => ex.preset === "github")
+              .map((example, i) => (
+                <div key={i} className="preview-item">
+                  <LinkPreview
+                    url={example.url}
+                    title={example.title}
+                    description={example.description}
+                    preset={example.preset}
+                    size={selectedSize}
+                    layout={selectedLayout}
+                  />
+                  <details className="code-details">
+                    <summary>View Code</summary>
+                    <pre className="code-block">
+                      {`<LinkPreview
+  url="${example.url}"
+  title="${example.title}"
+  description="${example.description}"
+  preset="github"
+  size="${selectedSize}"
+  layout="${selectedLayout}"
+/>`}
+                    </pre>
+                  </details>
+                </div>
               ))}
+          </div>
+        </div>
+
+        {/* npm Preset Examples */}
+        <div className="section">
+          <h2>npm Preset</h2>
+          <p>Using the built-in npm logo preset</p>
+          <div className="preview-grid">
+            {presetExamples
+              .filter((ex) => ex.preset === "npm")
+              .map((example, i) => (
+                <div key={i} className="preview-item">
+                  <LinkPreview
+                    url={example.url}
+                    title={example.title}
+                    description={example.description}
+                    preset={example.preset}
+                    size={selectedSize}
+                    layout={selectedLayout}
+                  />
+                  <details className="code-details">
+                    <summary>View Code</summary>
+                    <pre className="code-block">
+                      {`<LinkPreview
+  url="${example.url}"
+  title="${example.title}"
+  description="${example.description}"
+  preset="npm"
+  size="${selectedSize}"
+  layout="${selectedLayout}"
+/>`}
+                    </pre>
+                  </details>
+                </div>
+              ))}
+          </div>
+        </div>
+
+        {/* Custom Image Example */}
+        <div className="section">
+          <h2>Custom Image</h2>
+          <p>Using a custom image URL</p>
+          <div className="preview-grid">
+            <div className="preview-item">
+              <LinkPreview
+                url={customImageExample.url}
+                title={customImageExample.title}
+                description={customImageExample.description}
+                image={customImageExample.image}
+                size={selectedSize}
+                layout={selectedLayout}
+              />
+              <details className="code-details">
+                <summary>View Code</summary>
+                <pre className="code-block">
+                  {`<LinkPreview
+  url="${customImageExample.url}"
+  title="${customImageExample.title}"
+  description="${customImageExample.description}"
+  image="${customImageExample.image}"
+  size="${selectedSize}"
+  layout="${selectedLayout}"
+/>`}
+                </pre>
+              </details>
             </div>
           </div>
         </div>
 
-        {/* Size Selector */}
-        <div className="size-section">
-          <h2>Select Size Variant</h2>
-          <div className="size-buttons">
-            <button
-              onClick={() => setSelectedSize("small")}
-              className={`size-button ${selectedSize === "small" ? "active" : ""}`}
-            >
-              Small
-            </button>
-            <button
-              onClick={() => setSelectedSize("medium")}
-              className={`size-button ${selectedSize === "medium" ? "active" : ""}`}
-            >
-              Medium
-            </button>
-            <button
-              onClick={() => setSelectedSize("large")}
-              className={`size-button ${selectedSize === "large" ? "active" : ""}`}
-            >
-              Large
-            </button>
-          </div>
-        </div>
-
-        {/* Preview Section */}
-        <div className="preview-section">
-          <h2>Preview</h2>
-          <div className="preview-info">
-            <p>
-              <strong>URL:</strong> {testUrl}
-            </p>
-            <p>
-              <strong>Size:</strong> {selectedSize}
-            </p>
-            <p className="success-note">✓ Server-side fetching - No CORS issues!</p>
-          </div>
-
-          <div className="preview-container">
-            <LinkPreview
-              url={testUrl}
-              size={selectedSize}
-              onLoad={handleLoad}
-              onError={handleError}
-            />
-          </div>
-
-          {/* Metadata Display */}
-          {loadedData && (
-            <div className="metadata-section">
-              <h3>Extracted Metadata</h3>
-              <div className="metadata">
-                <div className="metadata-item">
-                  <strong>Title:</strong> {loadedData.title || "(none)"}
-                </div>
-                <div className="metadata-item">
-                  <strong>Description:</strong> {loadedData.description || "(none)"}
-                </div>
-                <div className="metadata-item">
-                  <strong>Image URL:</strong> {loadedData.image || "(none)"}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Error Display */}
-          {error && (
-            <div className="error-section">
-              <h3>Error</h3>
-              <p className="error-message">{error}</p>
-            </div>
-          )}
-        </div>
-
-        {/* All Sizes Preview */}
-        <div className="all-sizes-section">
-          <h2>All Size Variants (Vertical)</h2>
-          <p>Compare all three size variants side by side:</p>
-          <div className="sizes-grid">
-            <div className="size-preview">
+        {/* All Sizes Comparison */}
+        <div className="section">
+          <h2>Size Comparison</h2>
+          <p>All three sizes side by side</p>
+          <div className="sizes-comparison">
+            <div className="size-item">
               <h3>Small</h3>
-              <LinkPreview url={testUrl} size="small" />
+              <LinkPreview
+                url={presetExamples[0].url}
+                title={presetExamples[0].title}
+                description={presetExamples[0].description}
+                preset={presetExamples[0].preset}
+                size="small"
+                layout={selectedLayout}
+              />
             </div>
-            <div className="size-preview">
+            <div className="size-item">
               <h3>Medium</h3>
-              <LinkPreview url={testUrl} size="medium" />
+              <LinkPreview
+                url={presetExamples[0].url}
+                title={presetExamples[0].title}
+                description={presetExamples[0].description}
+                preset={presetExamples[0].preset}
+                size="medium"
+                layout={selectedLayout}
+              />
             </div>
-            <div className="size-preview">
+            <div className="size-item">
               <h3>Large</h3>
-              <LinkPreview url={testUrl} size="large" />
+              <LinkPreview
+                url={presetExamples[0].url}
+                title={presetExamples[0].title}
+                description={presetExamples[0].description}
+                preset={presetExamples[0].preset}
+                size="large"
+                layout={selectedLayout}
+              />
             </div>
           </div>
         </div>
 
-        {/* Horizontal Layout Preview */}
-        <div className="all-sizes-section">
-          <h2>Horizontal Layout</h2>
-          <p>Image on the left, text on the right:</p>
-          <div className="horizontal-grid">
-            <div className="size-preview">
-              <h3>Small - Horizontal</h3>
-              <LinkPreview url={testUrl} size="small" layout="horizontal" />
-            </div>
-            <div className="size-preview">
-              <h3>Medium - Horizontal</h3>
-              <LinkPreview url={testUrl} size="medium" layout="horizontal" />
-            </div>
-            <div className="size-preview">
-              <h3>Large - Horizontal</h3>
-              <LinkPreview url={testUrl} size="large" layout="horizontal" />
-            </div>
-          </div>
+        {/* Features */}
+        <div className="section features">
+          <h2>Features</h2>
+          <ul>
+            <li>✅ Pure presentational component - no data fetching</li>
+            <li>✅ Preset image support for GitHub and npm</li>
+            <li>✅ Three size variants (small, medium, large)</li>
+            <li>✅ Two layouts (vertical, horizontal)</li>
+            <li>✅ TypeScript support</li>
+            <li>✅ Fully customizable styling</li>
+            <li>✅ Zero dependencies (only peer deps: React, Next.js)</li>
+          </ul>
         </div>
       </div>
     </div>

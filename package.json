@@ -2,20 +2,20 @@
   "name": "nextjs-link-preview",
   "version": "1.0.5",
   "type": "module",
-  "description": "A Next.js component for generating beautiful link preview cards with server-side metadata fetching - No CORS issues!",
+  "description": "A simple, lightweight Next.js component for displaying beautiful link preview cards with preset image support",
   "keywords": [
     "nextjs",
     "next",
     "react",
     "link-preview",
     "preview",
-    "metadata",
-    "opengraph",
-    "og",
     "card",
     "component",
     "typescript",
-    "server-side"
+    "presentational",
+    "github",
+    "npm",
+    "preset"
   ],
   "author": "Seth Carney",
   "license": "MIT",
@@ -45,25 +45,17 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "build:watch": "rollup -c --watch",
-    "prepublishOnly": "npm run build",
-    "demo": "cd nextjs-demo && npm run dev",
-    "demo:install": "cd nextjs-demo && npm install",
-    "demo:build": "cd nextjs-demo && npm run build",
-    "dev:link": "npm link && cd nextjs-demo && npm link nextjs-link-preview && cd ..",
-    "dev:unlink": "cd nextjs-demo && npm unlink nextjs-link-preview && npm install nextjs-link-preview@latest && cd ..",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\""
+    "copy-component": "cp src/nextjs/components/LinkPreview.tsx nextjs-demo/src/components/LinkPreview.tsx",
+    "dev": "npm run copy-component && cd nextjs-demo && npm run dev",
+    "test": "npm run copy-component && cd nextjs-demo && npm run dev",
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "next": ">=14.0.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
-  "dependencies": {
-    "axios": "^1.6.0",
-    "cheerio": "^1.0.0-rc.12"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
