@@ -40,9 +40,6 @@
     "README.md",
     "LICENSE"
   ],
-  "bin": {
-    "nextjs-link-preview": "bin/setup.js"
-  },
   "scripts": {
     "build": "rollup -c",
     "copy-component": "cp src/nextjs/components/LinkPreview.tsx nextjs-demo/src/components/LinkPreview.tsx",
