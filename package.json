@@ -1,6 +1,6 @@
 {
   "name": "nextjs-link-preview",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "type": "module",
   "description": "A simple, lightweight Next.js component for displaying beautiful link preview cards with preset image support",
   "keywords": [
