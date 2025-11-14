@@ -100,6 +100,7 @@ export function LinkPreview({
         display: isHorizontal ? "flex" : "block",
         flexDirection: isHorizontal ? "row" : undefined,
         width,
+        maxWidth: isHorizontal ? undefined : "400px",
         height,
         textDecoration: "none",
         color: "inherit",
@@ -123,8 +124,10 @@ export function LinkPreview({
             minHeight: isHorizontal ? config.imageHeight : undefined,
             flexShrink: isHorizontal ? 0 : undefined,
             backgroundImage: `url(${imageUrl})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center"
+            backgroundSize: preset ? "contain" : "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: preset ? "#f6f8fa" : "transparent"
           }}
         />
       )}
